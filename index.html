@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ...existing content... -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peer Proxy (Host-Client)</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <script type="importmap">
+  {
+    "imports": {
+      "qrjs": "https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js",
+      "jsqr": "https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"
+    }
+  }
+  </script>
+  <!-- ...existing content... -->
+</head>
+<body>
+  <!-- ...existing content... -->
+  <header class="app-header">
+    <h1>Peer Proxy</h1>
+    <p class="subtle">
+      Note: Direct Bluetooth tethering is not available in browsers today. This uses a peer connection to route requests via the host.
+    </p>
+  </header>
+
+  <main class="container">
+    <nav class="tabs">
+      <button class="tab active" data-tab="host">Host</button>
+      <button class="tab" data-tab="client">Client</button>
+    </nav>
+
+    <section id="host" class="panel active">
+      <div class="card">
+        <h2>Host controls</h2>
+        <div class="row">
+          <button id="btnHostCreate" class="primary">Create offer</button>
+          <button id="btnHostCopy" class="ghost">Copy offer</button>
+        </div>
+        <canvas id="hostQr" class="qr"></canvas>
+        <textarea id="hostOffer" class="mono" rows="6" placeholder="Your SDP offer will appear here" readonly></textarea>
+        <textarea id="hostAnswer" class="mono" rows="6" placeholder="Paste client's SDP answer here"></textarea>
+        <div class="row">
+          <button id="btnHostSetAnswer" class="primary">Set answer</button>
+          <span id="hostStatus" class="status">Idle</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row align-center">
+          <label class="switch">
+            <input type="checkbox" id="toggleAutoApprove">
+            <span></span>
+          </label>
+          <span>Auto-approve client requests</span>
+        </div>
+        <div id="requests"></div>
+      </div>
+    </section>
+
+    <section id="client" class="panel">
+      <div class="card">
+        <h2>Connect to host</h2>
+        <div class="scan-wrap">
+          <video id="video" playsinline muted></video>
+          <canvas id="scanCanvas"></canvas>
+          <div class="scan-controls">
+            <button id="btnScan" class="ghost">Scan offer QR</button>
+            <button id="btnStopScan" class="ghost">Stop</button>
+          </div>
+        </div>
+        <textarea id="clientOffer" class="mono" rows="6" placeholder="Paste host's SDP offer here or scan QR"></textarea>
+        <div class="row">
+          <button id="btnClientAnswer" class="primary">Create answer</button>
+          <button id="btnClientCopy" class="ghost">Copy answer</button>
+          <span id="clientStatus" class="status">Idle</span>
+        </div>
+        <textarea id="clientAnswer" class="mono" rows="6" placeholder="Your SDP answer will appear here" readonly></textarea>
+      </div>
+
+      <div class="card">
+        <h2>Make a request via host</h2>
+        <input id="reqUrl" class="mono" placeholder="https://example.com/api">
+        <select id="reqMethod">
+          <option>GET</option>
+          <option>POST</option>
+          <option>PUT</option>
+          <option>PATCH</option>
+          <option>DELETE</option>
+          <option>HEAD</option>
+        </select>
+        <textarea id="reqHeaders" class="mono" rows="3" placeholder='{"Accept":"application/json"}'></textarea>
+        <textarea id="reqBody" class="mono" rows="4" placeholder="Optional body"></textarea>
+        <div class="row">
+          <button id="btnSend" class="primary">Send</button>
+        </div>
+        <pre id="respBox" class="mono"></pre>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+  <script type="module" src="./host.js"></script>
+  <script type="module" src="./client.js"></script>
+  <!-- ...existing content... -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+
