@@ -19,6 +19,7 @@ h1 { margin:0 0 6px; font-size:22px; letter-spacing:-0.02em; }
 .mono { font-family:"Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; width:100%; }
 textarea.mono { width:100%; }
 .status { color:var(--muted); font-size:12px; }
+.status.listening { color:#0a0a0a; }
 .qr { width:180px; height:180px; display:block; }
 .switch { position:relative; width:42px; height:26px; display:inline-block; }
 .switch input { display:none; }
@@ -36,4 +37,5 @@ textarea.mono { width:100%; }
 .scan-controls { display:flex; gap:8px; padding:8px; border-top:1px solid var(--line); background:#fff; }
 input, select { width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:10px; }
 pre { white-space:pre-wrap; word-wrap:break-word; }
+button.ghost:disabled { opacity:0.5; }
 /* ...existing styles... */

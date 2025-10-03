@@ -1,5 +1,6 @@
 /* ...existing code... */
 import "qrjs";
+import { playFSK, listenFSK } from './audio.js';
 
 const btnCreate = document.getElementById('btnHostCreate');
 const btnCopy = document.getElementById('btnHostCopy');
@@ -12,8 +13,12 @@ const requestsEl = document.getElementById('requests');
 const autoApproveEl = document.getElementById('toggleAutoApprove');
 const btCapsEl = document.getElementById('btCaps');
 const btnBtCheck = document.getElementById('btnBtCheck');
+const btnAudioOfferSend = document.getElementById('btnAudioOfferSend');
+const btnAudioAnswerListen = document.getElementById('btnAudioAnswerListen');
+const audioHostStatus = document.getElementById('audioHostStatus');
 
 let pc, dc, pending = new Map(), reqSeq = 0;
+let stopAudioListen;
 
 function mkPC() {
   const cfg = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
@@ -135,6 +140,28 @@ btnSetAnswer.onclick = async () => {
   } catch (e) {
     hostStatus.textContent = 'Invalid answer';
   }
+};
+
+btnAudioOfferSend.onclick = async () => {
+  if (!offerEl.value) return;
+  audioHostStatus.textContent = 'Sending...';
+  btnAudioOfferSend.disabled = true;
+  await playFSK(offerEl.value);
+  btnAudioOfferSend.disabled = false;
+  audioHostStatus.textContent = 'Sent';
+};
+
+btnAudioAnswerListen.onclick = async () => {
+  btnAudioAnswerListen.disabled = true;
+  audioHostStatus.textContent = 'Listening...';
+  audioHostStatus.classList.add('listening');
+  stopAudioListen = await listenFSK((text) => {
+    answerEl.value = text;
+    audioHostStatus.textContent = 'Received';
+    audioHostStatus.classList.remove('listening');
+    btnAudioAnswerListen.disabled = false;
+    stopAudioListen?.();
+  });
 };
 
 btnBtCheck?.addEventListener('click', async () => {

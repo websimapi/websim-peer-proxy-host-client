@@ -72,6 +72,15 @@
         </div>
         <div id="requests"></div>
       </div>
+
+      <div class="card">
+        <h3>Audio modem (experimental)</h3>
+        <div class="row">
+          <button id="btnAudioOfferSend" class="ghost">Broadcast offer via audio</button>
+          <button id="btnAudioAnswerListen" class="ghost">Listen for answer via audio</button>
+          <span id="audioHostStatus" class="status">Idle</span>
+        </div>
+      </div>
     </section>
 
     <section id="client" class="panel">
@@ -92,6 +101,15 @@
           <span id="clientStatus" class="status">Idle</span>
         </div>
         <textarea id="clientAnswer" class="mono" rows="6" placeholder="Your SDP answer will appear here" readonly></textarea>
+      </div>
+
+      <div class="card">
+        <h3>Audio modem (experimental)</h3>
+        <div class="row">
+          <button id="btnAudioOfferListen" class="ghost">Listen for offer via audio</button>
+          <button id="btnAudioAnswerSend" class="ghost">Play answer via audio</button>
+          <span id="audioClientStatus" class="status">Idle</span>
+        </div>
       </div>
 
       <div class="card">
@@ -118,6 +136,7 @@
   <script type="module" src="./app.js"></script>
   <script type="module" src="./host.js"></script>
   <script type="module" src="./client.js"></script>
+  <script type="module" src="./audio.js"></script>
   <!-- ...existing content... -->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>

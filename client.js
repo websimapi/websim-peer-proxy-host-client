@@ -1,5 +1,5 @@
 /* ...existing code... */
-import "jsqr";
+import { playFSK, listenFSK } from './audio.js';
 
 const clientOfferEl = document.getElementById('clientOffer');
 const clientAnswerEl = document.getElementById('clientAnswer');
@@ -130,5 +130,30 @@ function scan() {
   };
   tick();
 }
-/* ...existing code... */
 
+const btnAudioOfferListen = document.getElementById('btnAudioOfferListen');
+const btnAudioAnswerSend = document.getElementById('btnAudioAnswerSend');
+const audioClientStatus = document.getElementById('audioClientStatus');
+let stopAudioListenClient;
+
+btnAudioOfferListen.onclick = async () => {
+  btnAudioOfferListen.disabled = true;
+  audioClientStatus.textContent = 'Listening...';
+  audioClientStatus.classList.add('listening');
+  stopAudioListenClient = await listenFSK((text) => {
+    clientOfferEl.value = text;
+    audioClientStatus.textContent = 'Offer received';
+    audioClientStatus.classList.remove('listening');
+    btnAudioOfferListen.disabled = false;
+    stopAudioListenClient?.();
+  });
+};
+
+btnAudioAnswerSend.onclick = async () => {
+  if (!clientAnswerEl.value) return;
+  audioClientStatus.textContent = 'Sending...';
+  btnAudioAnswerSend.disabled = true;
+  await playFSK(clientAnswerEl.value);
+  btnAudioAnswerSend.disabled = false;
+  audioClientStatus.textContent = 'Sent';
+};
