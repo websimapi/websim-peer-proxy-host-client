@@ -10,6 +10,8 @@ const hostStatus = document.getElementById('hostStatus');
 const hostQr = document.getElementById('hostQr');
 const requestsEl = document.getElementById('requests');
 const autoApproveEl = document.getElementById('toggleAutoApprove');
+const btCapsEl = document.getElementById('btCaps');
+const btnBtCheck = document.getElementById('btnBtCheck');
 
 let pc, dc, pending = new Map(), reqSeq = 0;
 
@@ -134,5 +136,14 @@ btnSetAnswer.onclick = async () => {
     hostStatus.textContent = 'Invalid answer';
   }
 };
-/* ...existing code... */
 
+btnBtCheck?.addEventListener('click', async () => {
+  try {
+    const avail = await (navigator.bluetooth?.getAvailability?.() ?? false);
+    btCapsEl.textContent = avail
+      ? 'Web Bluetooth available (client-only). Advertising/PAN tethering not supported in browsers.'
+      : 'Web Bluetooth not available on this device/browser.';
+  } catch {
+    btCapsEl.textContent = 'Web Bluetooth not supported in this browser.';
+  }
+});
